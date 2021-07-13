@@ -1,5 +1,5 @@
 import MainGrid from '../src/components/mainGrid'
-import Box from '../src/components/Box'
+import Box from '../src/components/box'
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
