@@ -19,7 +19,7 @@ export default function Home() {
     'peas',
     'rafaballerini',
     'marcobrunodev',
-    'felipefialho'
+    'gabieller'
   ]
 
   return (
