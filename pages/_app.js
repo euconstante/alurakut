@@ -25,6 +25,11 @@ const GlobalStyle = createGlobalStyle`
   }
   ${AlurakutStyles}
 `
+const theme = {
+  colors: {
+    primary: 'red',
+  },
+}
 
 
 
