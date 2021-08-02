@@ -43,11 +43,7 @@ function ProfileRelationsBox(props) {
   )
 }
 export default function Home() {
-  const [comunidades, setComunidades] = React.useState([{
-    id: '1354654641321654',
-    title:'Eu odeio acordar cedo',
-    image:'https://img10.orkut.br.com/community/52cc4290facd7fa700b897d8a1dc80aa.jpg'
-  }]);
+  const [comunidades, setComunidades] = React.useState([]);
   const usuarioAleatorio = 'euconstante';
   
   const pessoasFavoritas = [
@@ -116,7 +112,7 @@ fetch ('https://graphql.datocms.com/', {
               const dadosDoForm = new FormData(event.target);
 
               const comunidade = {
-                id: new Date().toISOString,
+               
                 title: dadosDoForm.get('title'),
                 imageUrl: dadosDoForm.get('image'),
                 creatorSlug: usuarioAleatorio,
@@ -128,7 +124,7 @@ fetch ('https://graphql.datocms.com/', {
                 body: JSON.stringify(comunidade)
               })
               .then(async(response)=> {
-                const dados = response.json();
+                const dados = await response.json();
                 console.log(dados);
                 const comunidade = dados.registroCriado;
                 const comunidadesAtualizadas = [...comunidades, comunidade];
@@ -138,15 +134,15 @@ fetch ('https://graphql.datocms.com/', {
             }}>
               <div>
               <input placeholder='Qual vai ser o nome da sua comunidade?' 
-              name='image' 
+              name='title' 
               aria-label='Qual vai ser o nome da sua comunidade?'
              
               />
               
               </div>
               <div>
-              <input placeholder='Coloque um URL para usarmos de capa?' 
-              name='title' 
+              <input placeholder='Coloque um URL para usarmos de capa' 
+              name='image' 
               aria-label='Qual vai ser o nome da sua comunidade?'
               type='text'/>
               </div>
@@ -168,7 +164,7 @@ fetch ('https://graphql.datocms.com/', {
               {comunidades.map((itemAtual) => {
                 return (
                   <li key={itemAtual.id}>
-                    <a href={`/comunidades/${itemAtual.id}`}>
+                    <a href={`/comunities/${itemAtual.id}`}>
                       <img src={itemAtual.imageUrl} />
                       <span>{itemAtual.title}</span>
                     </a>
