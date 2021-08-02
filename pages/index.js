@@ -21,6 +21,27 @@ function ProfileSidebar(propriedades) {
    </Box>
   )
 }
+function ProfileRelationsBox(props) {
+  return (
+    <ProfileRelationsBoxWrapper>
+          <h2 className="smallTitle">
+              {props.title} ({props.items.length})
+            </h2>
+          <ul>
+              {/* {seguidores.map((itemAtual) => {
+                return (
+                  <li key={itemAtual}>
+                    <a href={`https://github.com/${itemAtual}.png`}>
+                      <img src={itemAtual.image} />
+                      <span>{itemAtual.title}</span>
+                    </a>
+                  </li>
+                )
+              })} */}
+            </ul>
+          </ProfileRelationsBoxWrapper>
+  )
+}
 export default function Home() {
   const [comunidades, setComunidades] = React.useState([{
     id: '1354654641321654',
@@ -28,7 +49,7 @@ export default function Home() {
     image:'https://img10.orkut.br.com/community/52cc4290facd7fa700b897d8a1dc80aa.jpg'
   }]);
   const usuarioAleatorio = 'euconstante';
-  //const comunidades = ['Alurakut'];
+  
   const pessoasFavoritas = [
     'juunegreiros',
     'omariosouto',
@@ -37,12 +58,46 @@ export default function Home() {
     'marcobrunodev',
     'gabieller'
   ]
+const [seguidores, setSeguidores] = React.useState([]);
+React.useEffect(function(){
+  fetch ('https://api.github.com/users/peas/followers')
+  .then(function(respostaDoServidor) {
+    return respostaDoServidor.json();
+})
+.then(function(respostaCompleta){
+  setSeguidores(respostaCompleta)
+})
+fetch ('https://graphql.datocms.com/', {
+  method:'POST',
+  headers: {
+    'Authorization':' 016b8c0843bcf9a674629731e32ece',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
 
+  },
+  body: JSON.stringify({"query": `query {
+    allCommunities{
+      title
+      id
+      imageUrl
+      creatorSlug
+    }
+  }
+  ` })
+
+})
+.then((response)=>response.json())
+.then((respostaCompleta)=> {
+  const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+  console.log(comunidadesVindasDoDato)
+  setComunidades(comunidadesVindasDoDato)
+})
+},[])
   return (
     <>
       <AlurakutMenu />
       <MainGrid>
-        {/* <Box style="grid-area: profileArea;"> */}
+       
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
           <ProfileSidebar githubUser={usuarioAleatorio} />
         </div>
@@ -63,11 +118,23 @@ export default function Home() {
               const comunidade = {
                 id: new Date().toISOString,
                 title: dadosDoForm.get('title'),
-                image: dadosDoForm.get('image')
+                imageUrl: dadosDoForm.get('image'),
+                creatorSlug: usuarioAleatorio,
               }
-
-              const comunidadesAtualizadas = [...comunidades, comunidade];
-              setComunidades(comunidadesAtualizadas)
+              fetch('/api/comunidades', {
+                method: 'POST',
+                headers: {
+                  'Content-Type':'application/json',  },              
+                body: JSON.stringify(comunidade)
+              })
+              .then(async(response)=> {
+                const dados = response.json();
+                console.log(dados);
+                const comunidade = dados.registroCriado;
+                const comunidadesAtualizadas = [...comunidades, comunidade];
+               setComunidades(comunidadesAtualizadas)
+              })
+               
             }}>
               <div>
               <input placeholder='Qual vai ser o nome da sua comunidade?' 
@@ -91,7 +158,8 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          
+           
+           <ProfileRelationsBox title ="Seguidores" items={seguidores}/>
           <ProfileRelationsBoxWrapper>
           <h2 className="smallTitle">
               Comunidades ({comunidades.length})
@@ -100,8 +168,8 @@ export default function Home() {
               {comunidades.map((itemAtual) => {
                 return (
                   <li key={itemAtual.id}>
-                    <a href={`/users/${itemAtual.title}`}>
-                      <img src={itemAtual.image} />
+                    <a href={`/comunidades/${itemAtual.id}`}>
+                      <img src={itemAtual.imageUrl} />
                       <span>{itemAtual.title}</span>
                     </a>
                   </li>
