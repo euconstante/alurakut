@@ -1,84 +1,63 @@
-# Example app with styled-components
+# Alurakut - Bringing Back the Orkut Experience
 
-This example features how you use a different styling solution than [styled-jsx](https://github.com/vercel/styled-jsx) that also supports universal styles. That means we can serve the required styles for the first render within the HTML and then load the rest in the client. In this case we are using [styled-components](https://github.com/styled-components/styled-components).
+Alurakut is a project developed during an [Alura](https://www.alura.com.br/) course, one of the leading tech schools in Brazil, with [Mario Souto](https://mariosouto.com/) as the instructor. It's designed to recreate the nostalgic look and feel of the old Orkut social platform while utilizing modern web technologies. Alurakut offers user authentication and a CRUD (Create, Read, Update, Delete) system that mimics Orkut's community creation feature, giving you a unique opportunity to relive the past with new technologies.
 
-For this purpose we are extending the `<Document />` and injecting the server side rendered styles into the `<head>`, and also adding the `babel-plugin-styled-components` (which is required for server side rendering). Additionally we set up a global [theme](https://www.styled-components.com/docs/advanced#theming) for styled-components using NextJS custom [`<App>`](https://nextjs.org/docs/advanced-features/custom-app) component.
+## Table of Contents
 
-## Preview
+1. [Installation](#installation)
+2. [Technologies](#technologies)
+3. [Future Improvements](#future-improvements)
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+## Installation
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-styled-components)
+To run the Alurakut project locally, follow these steps:
 
-## Deploy your own
+1. Clone the project from the GitHub repository:
+   ```bash
+   git clone https://github.com/euconstante/alurakut.git
+   cd alurakut
+   ```
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+2. Install project dependencies using npm or yarn:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-styled-components&project-name=with-styled-components&repository-name=with-styled-components)
+3. Create a `.env.local` file in the project root and add the required environment variables, such as API keys and secrets.
 
-## How to use
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+5. Open your web browser and navigate to `http://localhost:3000` to access Alurakut.
 
-```bash
-npx create-next-app --example with-styled-components with-styled-components-app
-# or
-yarn create next-app --example with-styled-components with-styled-components-app
-```
+## Technologies
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Alurakut was built using the following technologies:
 
-### Try it on CodeSandbox
+- [React.js](https://reactjs.org/): A JavaScript library for building user interfaces.
+- [Next.js](https://nextjs.org/): A React framework for server-side rendering (SSR).
+- [Styled Components](https://styled-components.com/): A CSS-in-JS library for styling React components.
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript): The programming language used for the project.
+- [GraphQL](https://graphql.org/): A query language for your API, used for efficient data fetching.
+- [DatoCMS](https://www.datocms.com/): A headless content management system (CMS) for managing and delivering content.
+- [Vercel](https://vercel.com/): A cloud platform for deploying serverless functions and static websites.
 
-[Open this example on CodeSandbox](https://codesandbox.io/s/github/vercel/next.js/tree/canary/examples/with-styled-components)
+Please refer to the official documentation for each technology to learn more about them and their usage.
 
-### Notes
+## Future Improvements
 
-When wrapping a [Link](https://nextjs.org/docs/api-reference/next/link) from `next/link` within a styled-component, the [as](https://styled-components.com/docs/api#as-polymorphic-prop) prop provided by `styled` will collide with the Link's `as` prop and cause styled-components to throw an `Invalid tag` error. To avoid this, you can either use the recommended [forwardedAs](https://styled-components.com/docs/api#forwardedas-prop) prop from styled-components or use a different named prop to pass to a `styled` Link.
+As with any project, there are areas for improvement in Alurakut:
 
-<details>
-<summary>Click to expand workaround example</summary>
-<br />
+1. **Language Consistency**: To maintain consistency and adhere to best practices, consider refactoring variable names and code comments to use English.
 
-**components/StyledLink.js**
+2. **Testing**: Implement test coverage for your project to ensure its reliability and reduce potential issues.
 
-```javascript
-import Link from 'next/link'
-import styled from 'styled-components'
+3. **Component Abstraction**: Improve code reusability by abstracting common components, reducing redundancy, and making the codebase more maintainable.
 
-const StyledLink = ({ as, children, className, href }) => (
-  <Link href={href} as={as} passHref>
-    <a className={className}>{children}</a>
-  </Link>
-)
-
-export default styled(StyledLink)`
-  color: #0075e0;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #40a9ff;
-  }
-
-  &:focus {
-    color: #40a9ff;
-    outline: none;
-    border: 0;
-  }
-`
-```
-
-**pages/index.js**
-
-```javascript
-import StyledLink from '../components/StyledLink'
-
-export default () => (
-  <StyledLink href="/post/[pid]" forwardedAs="/post/abc">
-    First post
-  </StyledLink>
-)
-```
-
-</details>
+Feel free to contribute to the project or apply these improvements to enhance Alurakut further. Enjoy your nostalgic journey with Alurakut!
